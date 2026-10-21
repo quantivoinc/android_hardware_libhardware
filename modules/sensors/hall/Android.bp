@@ -1,0 +1,58 @@
+// Copyright (C) 2026 The LineageOS Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package {
+    default_applicable_licenses: ["hardware_libhardware_license"],
+}
+
+// Standalone sensors sub-HAL. List the installed .so in
+// /vendor/etc/sensors/hals.conf so multihal dlopens it next to the primary HAL.
+cc_library_shared {
+    name: "sensors.hall",
+    vendor: true,
+    relative_install_path: "hw",
+
+    srcs: [
+        "HallContext.cpp",
+        "HallSubHal.cpp",
+    ],
+
+    header_libs: [
+        "libhardware_headers",
+        "android.hardware.sensors@2.X-multihal.header",
+        "android.hardware.sensors@2.X-shared-utils",
+    ],
+
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libhidlbase",
+        "libutils",
+        "android.hardware.sensors@2.0",
+        "android.hardware.sensors@2.0-ScopedWakelock",
+        "android.hardware.sensors@2.1",
+    ],
+
+    static_libs: [
+        "android.hardware.sensors@1.0-convert",
+    ],
+
+    cpp_std: "c++20",
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wextra",
+    ],
+}
